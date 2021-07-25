@@ -22,7 +22,8 @@ import javax.swing.JOptionPane;
  */
 public class Ventana extends javax.swing.JFrame {
      int longitud,a=0,e=0,i=0,o=0,u=0;
-     String palabra,murcielago="",mostrar="";
+     String palabra,murcielago="",mostrar="",lugar="";
+     
    
  
     public Ventana() {
@@ -463,31 +464,14 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_procesarActionPerformed
 
     private void cortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cortarActionPerformed
-        // TODO add your handling code here:
-        texto1.cut();
-        /*String buscar = JOptionPane.showInputDialog("Digite la palabra a buscar.. ");
-        String cambio = "";
-        
-        String temporal = palabra.replace(buscar, cambio);
-        
-        JOptionPane.showMessageDialog(null,"La palabra "+buscar+" fue cortada con éxito!!");
-        
-        reiniciar();
-        palabra = temporal;
-        texto1.setText(palabra);
-        */
+             texto1.cut();
     }//GEN-LAST:event_cortarActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO add your handling code here:
-        //JOptionPane.showMessageDialog(null,"Digite la palabra que buscar");
+     
         
         String buscar = JOptionPane.showInputDialog("Digite la palabra a buscar..");
-        //int tamaño = palabra.indexOf(buscar);
-        //System.out.println("tamaño es: "+tamaño);
-        //JOptionPane.showMessageDialog(null,"La palabra "+ palabra.substring(tamaño));
-        //JOptionPane.showMessageDialog(null,"La palabra "+  palabra.indexOf(buscar) );
-        
+      
         if(palabra.contains(buscar)){
          JOptionPane.showMessageDialog(null,"La palabra "+buscar+" si se encuentra en el texto");
         }else{
@@ -537,16 +521,17 @@ public class Ventana extends javax.swing.JFrame {
            ruta = archivo.getAbsolutePath();
            FileReader leer = new FileReader(ruta);
            BufferedReader lectura = new BufferedReader(leer);
-            
+           lugar= ruta;
            
              while(contenido != null){
                 
                 
-                if(contenido!="\n"){
-                    mostrar+="\r\n";
+                //if(contenido!="\n"){
+                    //mostrar+="\r\n";
                     mostrar+=contenido;
                  contenido= lectura.readLine();
-                }
+                 mostrar+="\n";
+                //}
              }
             
          } catch (FileNotFoundException ex) {
@@ -565,7 +550,7 @@ public class Ventana extends javax.swing.JFrame {
             try{ 
             if(jfc.showSaveDialog(null)==jfc.APPROVE_OPTION){ 
             direc = jfc.getSelectedFile().getAbsolutePath();
- 
+            lugar=direc;
                 File archivo = new File(direc);
                  FileWriter ec = new FileWriter(archivo);
                  ec.write("Palabra ingresada: ");
@@ -574,6 +559,7 @@ public class Ventana extends javax.swing.JFrame {
                  ec.write("Clave Murcielago: ");
                  ec.write(texto2.getText()); 
                  ec.close();
+                 JOptionPane.showMessageDialog(null,"Archivo guardado con exito!! ");
  
             } 
             }catch (Exception ex){ 
@@ -583,6 +569,25 @@ public class Ventana extends javax.swing.JFrame {
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         
+            try{ 
+            //if(jfc.showSaveDialog(null)==jfc.APPROVE_OPTION){ 
+            //direc = jfc.getSelectedFile().getAbsolutePath();
+                File archivos = new File(lugar);
+                 FileWriter ec1 = new FileWriter(archivos,true);
+                 ec1.write("\r\n\n");
+                 ec1.write("Palabra ingresada: ");
+                 ec1.write(texto1.getText());   
+                 ec1.write("\r\n");
+                 ec1.write("Clave Murcielago: ");
+                 ec1.write(texto2.getText()); 
+                 JOptionPane.showMessageDialog(null,"Guardado con Exito");
+                 ec1.close();
+                 reiniciar();
+ 
+            //} 
+            }catch (Exception ex){ 
+                JOptionPane.showMessageDialog(null,"Erro al guardar los cambios.. "+ex);
+            } 
     }//GEN-LAST:event_guardarActionPerformed
 
      
