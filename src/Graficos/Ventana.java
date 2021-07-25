@@ -1,7 +1,19 @@
 
 package Graficos;
 
+import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -10,12 +22,13 @@ import javax.swing.JOptionPane;
  */
 public class Ventana extends javax.swing.JFrame {
      int longitud,a=0,e=0,i=0,o=0,u=0;
-     String palabra,murcielago="";
+     String palabra,murcielago="",mostrar="";
    
  
     public Ventana() {
         initComponents();
         this.setTitle("Programación ll");
+        
     }
 
     /**
@@ -329,14 +342,29 @@ public class Ventana extends javax.swing.JFrame {
 
         abrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         abrir.setText("Abrir");
+        abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirActionPerformed(evt);
+            }
+        });
         archivo.add(abrir);
 
         guardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         guardar.setText("Guardar");
+        guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarActionPerformed(evt);
+            }
+        });
         archivo.add(guardar);
 
         guardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
         guardarComo.setText("Guardar como");
+        guardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarComoActionPerformed(evt);
+            }
+        });
         archivo.add(guardarComo);
 
         menu.add(archivo);
@@ -492,6 +520,72 @@ public class Ventana extends javax.swing.JFrame {
         texto1.paste();
     }//GEN-LAST:event_pegarActionPerformed
 
+    private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
+
+         try {
+             String contenido="";
+            File archivo;
+           String ruta;
+
+           JFileChooser buscarArchivo;
+
+           buscarArchivo= new JFileChooser();
+
+           buscarArchivo.showOpenDialog(null);
+
+           archivo = buscarArchivo.getSelectedFile();
+           ruta = archivo.getAbsolutePath();
+           FileReader leer = new FileReader(ruta);
+           BufferedReader lectura = new BufferedReader(leer);
+            
+           
+             while(contenido != null){
+                
+                
+                if(contenido!="\n"){
+                    mostrar+="\r\n";
+                    mostrar+=contenido;
+                 contenido= lectura.readLine();
+                }
+             }
+            
+         } catch (FileNotFoundException ex) {
+             JOptionPane.showMessageDialog(null,"Error al abrir el archivo "+ex);
+         }catch (IOException ex) {
+                 JOptionPane.showMessageDialog(null,"Error al abrir el archivo "+ex);
+             }
+         
+         texto1.setText(mostrar);
+    }//GEN-LAST:event_abrirActionPerformed
+
+    private void guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarComoActionPerformed
+      
+        JFileChooser jfc= new JFileChooser(); 
+            String direc = ""; 
+            try{ 
+            if(jfc.showSaveDialog(null)==jfc.APPROVE_OPTION){ 
+            direc = jfc.getSelectedFile().getAbsolutePath();
+ 
+                File archivo = new File(direc);
+                 FileWriter ec = new FileWriter(archivo);
+                 ec.write("Palabra ingresada: ");
+                 ec.write(texto1.getText());   
+                 ec.write("\r\n");
+                 ec.write("Clave Murcielago: ");
+                 ec.write(texto2.getText()); 
+                 ec.close();
+ 
+            } 
+            }catch (Exception ex){ 
+            ex.printStackTrace(); 
+            } 
+    }//GEN-LAST:event_guardarComoActionPerformed
+
+    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        
+    }//GEN-LAST:event_guardarActionPerformed
+
+     
  public void reiniciar(){
      a=e=i=o=u=0;
      texto1.setText("");
